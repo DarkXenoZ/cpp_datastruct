@@ -1,43 +1,45 @@
-#include <iostream>
-#include <vector>
+#include"bits/stdc++.h"
 using namespace std;
-void vector_swap(vector<int> &v1,vector<int> &v2,
- int start1, int end1,
- int start2, int end2) {
-     vector<int> vt1,vt2;
-     for(int i=0;i<start1;i++)vt1.push_back(v1[i]);
-     for(int i=0;i<start2;i++)vt2.push_back(v2[i]);
-     for(int i=start1;i<end1;i++)vt2.push_back(v1[i]);
-     for(int i=start2;i<end2;i++)vt1.push_back(v2[i]);
-     for(int i=end1;i<v1.size();i++)vt1.push_back(v1[i]);
-     for(int i=end2;i<v2.size();i++)vt2.push_back(v2[i]);
-     v1=vt1;
-     v2=vt2;
+class cmp
+{
+public:
+    bool operator()(pair<int,int> n1,pair<int,int> n2) {
+        return n1.first>n2.first;
+    }
+};
+int timeinfo[1000100];
+vector<int> V;
+int main()
+{
+int n,m,mo;
+scanf(" %d %d",&n,&mo);
+if(mo>n){
+m=mo-n;
+for(int i=0;i<n;i++)scanf(" %d",&timeinfo[i]);
+int low=0,high=10000000,mid,minv=INT_MAX;
+while(low<=high)
+    {
+    mid=(low+high)/2;
+    int sum=0;
+    for(int i=0;i<n;i++)sum+=(mid/timeinfo[i]);
+    if(sum>=m)
+        {
+        if(mid<minv)minv=mid;
+        high=mid-1;
+        }
+    else low=mid+1;
+    }
+priority_queue<pair<int,int>,vector<pair<int,int> >,cmp> pq;
+for(int i=0;i<n;i++)pq.push(make_pair(0,i));
+int cnt=0;
+while(cnt<mo)
+    {
+    pair<int,int> p = pq.top();
+    printf("%d\n",p.first);
+    pq.pop();
+    pq.push(make_pair(p.first+timeinfo[p.second],p.second));
+    cnt++;
+    }
 }
-int main() {
- //read input
- int n,c;
- vector<int>v1,v2;
- cin >> n; //number of v1
- for (int i = 0;i < n;i++) {
- cin >> c;
- v1.push_back(c);
- }
- cin >> n; //number of v2
- for (int i = 0;i < n;i++) {
- cin >> c;
- v2.push_back(c);
- }
- int s1,e1,s2,e2; //position
- cin >> s1 >> e1 >> s2 >> e2;
- //call the function
- vector_swap(v1,v2,s1,e1,s2,e2);
- //display content of the stack
- cout << "v1 has " << v1.size() << endl;
- for (auto &x : v1) { cout << x << " "; }
- cout << endl;
- //display content of the stack
- cout << "v2 has " << v2.size() << endl;
- for (auto &x : v2) { cout << x << " "; }
- cout << endl;
+else for(int i=0;i<mo;i++)printf("0\n");
 }
