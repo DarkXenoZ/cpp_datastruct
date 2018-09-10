@@ -5,7 +5,12 @@ void reverse(vector<int> &v,vector<int>::iterator a,vector<int>::iterator b) {
     --b;
     while(a<=b)
     {
-        iter_swap(a++,b--);
+        //iter_swap(a++,b--);
+        int k = *a;
+        *a=*b;
+        *b=k;
+        a++;
+        b--;
     }
 }
 int main() {
